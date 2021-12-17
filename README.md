@@ -16,7 +16,7 @@ To install from source you'll need to install rustup by following the instructio
 
 Then clone this repo 
 ```shell
-git clone git@github.com:A-AI-Frameworks/s3-turbo.git
+git clone git@github.com:benjaminjellis/turbo.git
 ```
 
 Navigate to the cloned rep and run 
