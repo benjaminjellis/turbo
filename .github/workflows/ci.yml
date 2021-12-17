@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: 1.56.1
+          override: true
+      - run: cargo test --verbose
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.56.1
+          components: clippy
+          override: true
+      - run: cargo clippy -- -D warnings
+
+  windowsbuid:
+    name: Windows Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.56.1
+          target: armv7-unknown-linux-gnueabihf
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target x86_64-pc-windows-gnu
+      - uses: actions/upload-artifact@v2
+        with:
+          name: windows
+          path: |
+            ./target/x86_64-pc-windows-gnu/release/s3-turbo.exe
+
+  linuxbuild:
+    name: Linux Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: 1.56.1
+          override: true
+      - run: cargo build --release
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux
+          path: |
+            ./target/release/s3-turbo
