@@ -52,7 +52,7 @@ jobs:
         with:
           name: windows
           path: |
-            ./target/x86_64-pc-windows-gnu/release/s3-turbo.exe
+            ./target/x86_64-pc-windows-gnu/release/turbo.exe
 
   linuxbuild:
     name: Linux Build
