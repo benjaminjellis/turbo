@@ -1,3 +1,6 @@
+#![warn(clippy::pedantic)]
+#![allow(clippy::redundant_closure_for_method_calls)]
+
 mod downloader;
 mod uploader;
 mod utils;
@@ -12,11 +15,13 @@ use std::time::Instant;
 
 // number of keys per task
 const CHUNK_SIZE: usize = 300;
+const VERSION_NUMBER: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Parser)]
 #[clap(
-    version = "v0.2.3",
-    author = "benjamin ellis <benjaminjellis@protonmail.com>"
+    version = VERSION_NUMBER,
+    author = "benjamin ellis <benjaminjellis@protonmail.com>",
+    about = "turbocharged S3 downloads and uploads"
 )]
 struct Opts {
     /// sub commands

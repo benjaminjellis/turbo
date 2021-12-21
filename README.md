@@ -1,11 +1,9 @@
-# turbo ![CI](https://github.com/benjaminjellis/turbo/actions/workflows/ci.yml/badge.svg) ![MSRV](https://img.shields.io/badge/msrv-1.56.0-red) ![version](https://img.shields.io/badge/version-0.2.3-blue)
+# turbo ![CI](https://github.com/benjaminjellis/turbo/actions/workflows/ci.yml/badge.svg) ![MSRV](https://img.shields.io/badge/msrv-1.56.0-red) ![version](https://img.shields.io/badge/version-0.2.4-blue)
 
 turbo is a CLI tool for downloading and uploading large datasets from and to AWS S3 quickly. 
 
 turbo is useful for downloading and uploading large machine learning datasets (e.g. of 10s of thousands of images) 
 between S3 and a local or virtual machine used for model development.
-
-turbo is around 43 times faster than single threaded boto3. 
 
 ## 1 Using Turbo
 
@@ -19,18 +17,18 @@ Then clone this repo
 git clone git@github.com:benjaminjellis/turbo.git
 ```
 
-Navigate to the cloned rep and run 
+Navigate to the cloned repo and run 
 ```shell
 cargo build --release
 ```
 
-This will create a binary called ```turbo``` (or ```turbo.exe``` on windows) in the directory 
+This will create a binary called ```turbo``` (or ```turbo.exe``` on Windows) in the directory 
 ```target/release```. 
 
 If you add this binary to a location in your path you'll be able to run turbo.
 
 #### 1.1.2 Installation from pre-built binaries 
-Pre-compiled binaries for windows (```turbo.exe```) and linux (```turbo```) are available from
+Pre-compiled binaries for windows, linux and mac are available from
 [here](https://github.com/benjaminjellis/turbo/releases) for each release.
 
 ### 1.2 Setup 
@@ -151,5 +149,5 @@ turbo upload --input my_local_dir --bucket my_bucket --filter 'val/*'
 
 ## 2. 🔪 Sharp Bits 
 
-- The underlying AWS Rust SDK is experimental so there may be bugs
+- The underlying AWS Rust SDK is developer preview so there may be bugs
 - turbo's API isn't yet stable so may be subject to change across versions

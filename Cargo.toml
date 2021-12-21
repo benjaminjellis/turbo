@@ -1,18 +1,17 @@
 [package]
 name = "turbo"
-version = "0.2.3"
+version = "0.2.4"
 rust-version= "1.56.0"
 edition = "2021"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
 description = "turbocharged S3 uploads and downloads"
-publish = false
 
 [dependencies]
 anyhow = "1.0.45"
 aws-config = "0.3.0"
 aws-sdk-s3 = "0.3.0"
 aws-types = "0.3.0"
-clap = "3.0.0-beta.5"
+clap = { version = "3.0.0-rc.7", features = ["derive"] }
 dotenv = "0.15.0"
 futures = "0.3.17"
 regex = "1.5.4"
