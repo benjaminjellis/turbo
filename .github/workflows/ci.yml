@@ -41,7 +41,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: 1.56.1
-          target: armv7-unknown-linux-gnueabihf
+          target: x86_64-pc-windows-gnu
           override: true
       - uses: actions-rs/cargo@v1
         with:
@@ -52,7 +52,7 @@ jobs:
         with:
           name: windows
           path: |
-            ./target/x86_64-pc-windows-gnu/release/s3-turbo.exe
+            ./target/x86_64-pc-windows-gnu/release/turbo.exe
 
   linuxbuild:
     name: Linux Build
@@ -69,4 +69,20 @@ jobs:
         with:
           name: linux
           path: |
-            ./target/release/s3-turbo
+            ./target/release/turbo
+
+  macbuid:
+    name: Mac Build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.56.1
+          override: true
+      - run: cargo build --release
+      - uses: actions/upload-artifact@v2
+        with:
+          name: mac
+          path: |
+            ./target/release/turbo

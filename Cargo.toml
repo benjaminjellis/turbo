@@ -1,11 +1,10 @@
 [package]
 name = "turbo"
-version = "0.2.3"
+version = "0.2.4"
 rust-version= "1.56.0"
 edition = "2021"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
 description = "turbocharged S3 uploads and downloads"
-publish = false
 
 [dependencies]
 anyhow = "1.0.45"
