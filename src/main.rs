@@ -1,5 +1,4 @@
 #![warn(clippy::pedantic)]
-#![allow(clippy::redundant_closure_for_method_calls)]
 
 mod downloader;
 mod uploader;
@@ -19,9 +18,9 @@ const VERSION_NUMBER: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Parser)]
 #[clap(
+    about = "turbocharged S3 downloads and uploads",
     version = VERSION_NUMBER,
     author = "benjamin ellis <benjaminjellis@protonmail.com>",
-    about = "turbocharged S3 downloads and uploads"
 )]
 struct Opts {
     /// sub commands

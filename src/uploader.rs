@@ -108,12 +108,11 @@ fn is_not_hidden(entry: &DirEntry) -> bool {
 ///
 /// # Return Values
 /// * `all_files` - a vector of file names
-#[allow(clippy::redundant_closure)]
 fn list_input_directory(input_dir: &str) -> Vec<String> {
     WalkDir::new(input_dir)
         .into_iter()
         .filter_entry(|e| is_not_hidden(e))
-        .filter_map(|v| v.ok())
+        .filter_map(std::result::Result::ok)
         .filter(|t| t.metadata().unwrap().is_file())
         .map(|x| x.path().display().to_string())
         .collect::<Vec<_>>()
@@ -141,4 +140,17 @@ async fn upload_objects(file_chunk: Vec<String>, bucket: String) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_list_input_directory(){
+        let files = list_input_directory("./test/test_data");
+        assert_eq!(vec!["./test/test_data/test_file_1.txt", "./test/test_data/test_dir/test_file_2.txt"],
+        files);
+    }
+
 }
