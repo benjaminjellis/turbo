@@ -1,4 +1,4 @@
-# turbo ![CI](https://github.com/benjaminjellis/turbo/actions/workflows/ci.yml/badge.svg) ![MSRV](https://img.shields.io/badge/msrv-1.56.0-red) ![version](https://img.shields.io/badge/version-0.2.4-blue)
+# turbo ![CI](https://github.com/benjaminjellis/turbo/actions/workflows/cd.yml/badge.svg) ![MSRV](https://img.shields.io/badge/msrv-1.56.0-red) ![version](https://img.shields.io/badge/version-0.2.5-blue)
 
 turbo is a CLI tool for downloading and uploading large datasets from and to AWS S3 quickly. 
 
