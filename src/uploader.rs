@@ -3,7 +3,7 @@ use crate::{Upload, CHUNK_SIZE};
 
 use anyhow::Result;
 use aws_sdk_s3::model::{BucketLocationConstraint, CreateBucketConfiguration};
-use aws_sdk_s3::ByteStream;
+use aws_smithy_http::byte_stream::ByteStream;
 use futures::future::join_all;
 use tokio::task::spawn;
 use walkdir::{DirEntry, WalkDir};
@@ -30,9 +30,7 @@ pub async fn uploader(t: Upload) -> Result<()> {
 
     let no_files = all_files.len();
 
-    if no_files == 0 {
-        panic!("Found 0 files to upload. If you've used a filter check it's correct")
-    }
+    assert_ne!(no_files, 0, "Found 0 files to upload. If you've used a filter check it's correct");
 
     println!("{} objects to upload..", no_files);
 
@@ -111,7 +109,7 @@ fn is_not_hidden(entry: &DirEntry) -> bool {
 fn list_input_directory(input_dir: &str) -> Vec<String> {
     WalkDir::new(input_dir)
         .into_iter()
-        .filter_entry(|e| is_not_hidden(e))
+        .filter_entry(is_not_hidden)
         .filter_map(std::result::Result::ok)
         .filter(|t| t.metadata().unwrap().is_file())
         .map(|x| x.path().display().to_string())

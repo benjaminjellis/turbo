@@ -33,9 +33,7 @@ pub async fn downloader(t: Download) -> Result<()> {
 
     let no_keys = all_keys.len();
 
-    if no_keys == 0 {
-        panic!("Found 0 files to download. If you've used a filter check it's correct")
-    }
+    assert_ne!(no_keys, 0, "Found 0 files to download. If you've used a filter check it's correct");
 
     println!("{} objects to download..", no_keys);
 
