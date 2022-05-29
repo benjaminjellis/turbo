@@ -1,7 +1,7 @@
 use anyhow::Result;
 use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_s3::Client;
-use aws_types::config::Config;
+use aws_types::SdkConfig;
 use regex::Regex;
 
 /// Function to filter the keys of an entire bucket
@@ -48,7 +48,7 @@ pub fn chunk_vector<T>(keys: Vec<T>, chunk_size: usize) -> Vec<Vec<T>> {
 ///
 /// # Return Values
 /// * `client` - S3 client
-pub async fn get_s3_client() -> Result<(Client, Config)> {
+pub async fn get_s3_client() -> Result<(Client, SdkConfig)> {
     let region_provider = RegionProviderChain::default_provider();
     let shared_config = aws_config::from_env().region(region_provider).load().await;
 

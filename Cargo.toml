@@ -8,9 +8,10 @@ description = "turbocharged S3 uploads and downloads"
 
 [dependencies]
 anyhow = "1.0.45"
-aws-config = "0.3.0"
-aws-sdk-s3 = "0.3.0"
-aws-types = "0.3.0"
+aws-config = "0.12.0"
+aws-sdk-s3 = "0.12.0"
+aws-types = "0.12.0"
+aws-smithy-http = "0.42.0"
 clap = { version = "3.0.0", features = ["derive"] }
 dotenv = "0.15.0"
 futures = "0.3.17"
