@@ -2,6 +2,9 @@ use pyo3::{prelude::*, wrap_pyfunction};
 use turbolib::{downloader, uploader};
 use dotenv::dotenv;
 
+/// download(bucket, output, filter, /)
+/// --
+///
 /// Download from S3
 #[pyfunction]
 fn download(py: Python, bucket: String, output: String, filter: Option<String>) -> PyResult<&PyAny> {
@@ -13,6 +16,10 @@ fn download(py: Python, bucket: String, output: String, filter: Option<String>) 
 }
 
 
+
+/// upload(bucket, input, filter, /)
+/// --
+///
 /// Upload to S3
 #[pyfunction]
 fn upload(py: Python, bucket: String, input: String, filter: Option<String>) -> PyResult<&PyAny> {

@@ -20,6 +20,7 @@ jobs:
           toolchain: 1.57.0
           override: true
       - run: cargo test --verbose
+      - run: cargo build --release
 
   lint:
     name: Lint

@@ -9,7 +9,7 @@ env:
 
 jobs:
 
-  windowsbuid:
+  windowsbuid-turbo:
     name: Windows Build
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +30,7 @@ jobs:
           path: |
             ./target/x86_64-pc-windows-gnu/release/turbo.exe
 
-  linuxbuild:
+  linuxbuild-turbo:
     name: Linux Build
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +47,7 @@ jobs:
           path: |
             ./target/release/turbo
 
-  macbuid:
+  macbuid-turbo:
     name: Mac Build
     runs-on: macos-latest
     steps:
