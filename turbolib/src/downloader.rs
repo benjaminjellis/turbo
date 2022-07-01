@@ -1,5 +1,5 @@
 use crate::utils::{chunk_vector, get_s3_client, regex_filter};
-use crate::{Download, CHUNK_SIZE};
+use crate::CHUNK_SIZE;
 
 use anyhow::Result;
 use aws_sdk_s3::Client;
@@ -8,27 +8,36 @@ use std::fs::{create_dir_all, write};
 use std::path::Path;
 use tokio::task::spawn;
 
+
 /// Download from S3 bucket
 ///
 /// # Arguments
 /// * `t` - Download struct with parsed args from user input
+/// * `output` - todo
+/// * `filter` - todo
+///
+/// # Errors
+/// Will throw an error if the AWS SDK won't allow listing of objects in a bucket
+///
+/// # Panics
+/// Will panic if the number of objects in teh bucket is 0
 ///
 /// # Return Values
 /// Nothing
-pub async fn downloader(t: Download) -> Result<()> {
+pub async fn downloader(bucket: String, output: String, filter: Option<String>) -> Result<()> {
     let (client, _) = get_s3_client().await?;
 
-    create_dir_all(t.output.as_str())?;
+    create_dir_all(output.as_str())?;
 
-    let mut all_keys = list_all_objects_in_bucket(client, &t.bucket).await?;
+    let mut all_keys = list_all_objects_in_bucket(client, &bucket).await?;
 
     // if a filter is provided use it
-    if t.filter.is_some() {
+    if let Some(f) = filter{
         println!(
             "Filtering using the regular expression: {}",
-            &t.filter.as_ref().unwrap().as_str()
+            f.as_str()
         );
-        all_keys = regex_filter(all_keys, t.filter.unwrap().as_str());
+        all_keys = regex_filter(all_keys, f.as_str());
     }
 
     let no_keys = all_keys.len();
@@ -44,8 +53,8 @@ pub async fn downloader(t: Download) -> Result<()> {
     let downloader_futures: Vec<_> = key_chunks
         .iter()
         .map(|key_chunk| {
-            let bucket_c = t.bucket.clone();
-            let output_dir = t.output.clone();
+            let bucket_c = bucket.clone();
+            let output_dir = output.clone();
             let key_chunk_c = key_chunk.clone();
             spawn(async move {
                 download_objects(output_dir, bucket_c, key_chunk_c)

@@ -1,0 +1,18 @@
+[package]
+name = "py-turbo"
+version = "0.3.0"
+rust-version= "1.56.0"
+edition = "2021"
+authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
+description = "turbocharged S3 uploads and downloads for python"
+
+
+[lib]
+name = "py_turbo"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.16", features = ["extension-module"] }
+pyo3-asyncio = { version = "0.16", features = ["tokio-runtime"] }
+dotenv = "0.15.0"
+turbolib = {path = "../turbolib"}

@@ -1,26 +1,19 @@
 #![warn(clippy::pedantic)]
 
-mod downloader;
-mod uploader;
-mod utils;
-
-use downloader::downloader;
-use uploader::uploader;
-
 use anyhow::Result;
 use clap::Parser;
 use dotenv::dotenv;
 use std::time::Instant;
+use turbolib::{uploader, downloader};
 
 // number of keys per task
-const CHUNK_SIZE: usize = 300;
 const VERSION_NUMBER: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Parser)]
 #[clap(
-    about = "turbocharged S3 downloads and uploads",
-    version = VERSION_NUMBER,
-    author = "benjamin ellis <benjaminjellis@protonmail.com>",
+about = "turbocharged S3 downloads and uploads",
+version = VERSION_NUMBER,
+author = "benjamin ellis <benjaminjellis@protonmail.com>",
 )]
 struct Opts {
     /// sub commands
@@ -72,11 +65,11 @@ async fn main() -> Result<()> {
     dotenv().ok();
 
     match opts.subcmd {
-        SubCommand::Upload(t) => {
-            uploader(t).await?;
+        SubCommand::Upload(u) => {
+            uploader(u.bucket, u.input, u.filter).await?;
         }
-        SubCommand::Download(t) => {
-            downloader(t).await?;
+        SubCommand::Download(d) => {
+            downloader(d.bucket, d.output, d.filter).await?;
         }
     }
 

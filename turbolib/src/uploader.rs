@@ -1,5 +1,5 @@
 use crate::utils::{chunk_vector, get_s3_client, regex_filter};
-use crate::{Upload, CHUNK_SIZE};
+use crate::CHUNK_SIZE;
 
 use anyhow::Result;
 use aws_sdk_s3::model::{BucketLocationConstraint, CreateBucketConfiguration};
@@ -11,21 +11,29 @@ use walkdir::{DirEntry, WalkDir};
 /// Upload to S3 bucket
 ///
 /// # Arguments
-/// * `t` - Upload struct with parsed args from user input
+/// * `bucket` - Upload struct with parsed args from user input
+/// * `input` - todo
+/// * `filter` - todo
+///
+/// # Errors
+/// Todo
+///
+/// # Panics
+/// Will panic is there are 0 files found to upload todo this should be an error not a panic
 ///
 /// # Return Values
 /// Nothing
-pub async fn uploader(t: Upload) -> Result<()> {
+pub async fn uploader(bucket: String, input: String, filter: Option<String>) -> Result<()> {
     // recursively list the input directory
-    let mut all_files = list_input_directory(t.input.as_str());
+    let mut all_files = list_input_directory(input.as_str());
 
     // filter paths
-    if t.filter.is_some() {
+    if filter.is_some() {
         println!(
             "Filtering using the regular expression: {}",
-            &t.filter.as_ref().unwrap()
+            &filter.as_ref().unwrap()
         );
-        all_files = regex_filter(all_files, t.filter.unwrap().as_str());
+        all_files = regex_filter(all_files, filter.unwrap().as_str());
     }
 
     let no_files = all_files.len();
@@ -45,11 +53,11 @@ pub async fn uploader(t: Upload) -> Result<()> {
     if !buckets
         .iter()
         .map(|bucket| bucket.name.as_ref().unwrap())
-        .any(|x| x == &t.bucket)
+        .any(|x| x == &bucket)
     {
         println!(
             "Bucket {} doesn't exist, attempting to create it ",
-            &t.bucket
+            &bucket
         );
 
         // this config setting is nasty but required
@@ -61,16 +69,16 @@ pub async fn uploader(t: Upload) -> Result<()> {
         client
             .create_bucket()
             .create_bucket_configuration(cfg)
-            .bucket(&t.bucket)
+            .bucket(&bucket)
             .send()
             .await?;
-        println!("Created bucket: {} ", &t.bucket);
+        println!("Created bucket: {} ", &bucket);
     }
 
     let uploader_futures: Vec<_> = file_chunks
         .iter()
         .map(|file_chunk| {
-            let bucket_c = t.bucket.clone();
+            let bucket_c = bucket.clone();
             let file_chunk_c = file_chunk.clone();
             spawn(async move {
                 upload_objects(file_chunk_c, bucket_c).await.unwrap();
