@@ -154,8 +154,11 @@ mod tests {
 
     #[test]
     fn test_list_input_directory(){
-        let files = list_input_directory("./test/test_data");
-        assert_eq!(vec!["./test/test_data/test_file_1.txt", "./test/test_data/test_dir/test_file_2.txt"],
+        let mut files = list_input_directory("./test/test_data");
+        files.sort();
+        let mut gt_files = vec!["./test/test_data/test_file_1.txt", "./test/test_data/test_dir/test_file_2.txt"];
+        gt_files.sort();
+        assert_eq!(gt_files,
         files);
     }
 
