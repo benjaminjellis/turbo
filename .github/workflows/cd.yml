@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.56.1
+          toolchain: 1.57.0
           target: x86_64-pc-windows-gnu
           override: true
       - uses: actions-rs/cargo@v1
@@ -38,7 +38,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.56.1
+          toolchain: 1.57.0
           override: true
       - run: cargo build --release
       - uses: actions/upload-artifact@v2
@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.56.1
+          toolchain: 1.57.0
           override: true
       - run: cargo build --release
       - uses: actions/upload-artifact@v2

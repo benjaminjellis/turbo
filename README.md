@@ -1,6 +1,10 @@
-# turbo ![CI](https://github.com/benjaminjellis/turbo/actions/workflows/cd.yml/badge.svg) ![MSRV](https://img.shields.io/badge/msrv-1.56.0-red) ![version](https://img.shields.io/badge/version-0.2.5-blue)
+# turbo 
+![CI](https://github.com/benjaminjellis/turbo/actions/workflows/cd.yml/badge.svg) 
+![MSRV](https://img.shields.io/badge/msrv-1.57.0-red) 
+![version](https://img.shields.io/badge/version-0.3.0-blue)
 
-turbo is a CLI tool for downloading and uploading large datasets from and to AWS S3 quickly. 
+turbo is a tool for downloading and uploading large datasets from and to AWS S3 quickly. turbo is available as a rust
+library, python library or as a CLI tool. 
 
 turbo is useful for downloading and uploading large machine learning datasets (e.g. of 10s of thousands of images) 
 between S3 and a local or virtual machine used for model development.
