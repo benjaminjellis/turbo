@@ -37,7 +37,7 @@ pub async fn uploader(bucket: String, input: String, filter: Option<String>) -> 
 
     let no_files = all_files.len();
 
-    if no_files == 0usize{
+    if no_files == 0_usize{
         return Err(TurbolibError::NoFilesFoundInDirectory(input));
     }
 

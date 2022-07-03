@@ -38,7 +38,7 @@ pub async fn downloader(bucket: String, output: String, filter: Option<String>) 
 
     let no_keys = all_keys.len();
 
-    if no_keys == 0usize{
+    if no_keys == 0_usize{
         return Err(TurbolibError::NoObjectsFoundInBucket(bucket));
     }
 
