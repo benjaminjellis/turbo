@@ -1,7 +1,7 @@
 [package]
 name = "py-turbo"
-version = "0.3.0"
-rust-version= "1.56.0"
+version = "0.3.1"
+rust-version= "1.57.0"
 edition = "2021"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
 description = "turbocharged S3 uploads and downloads for python"
