@@ -1,7 +1,6 @@
 use crate::utils::{chunk_vector, get_s3_client, regex_filter};
-use crate::CHUNK_SIZE;
+use crate::{CHUNK_SIZE, TurbolibError};
 
-use anyhow::Result;
 use aws_sdk_s3::Client;
 use futures::future::join_all;
 use std::fs::{create_dir_all, write};
@@ -12,19 +11,16 @@ use tokio::task::spawn;
 /// Download from S3 bucket
 ///
 /// # Arguments
-/// * `t` - Download struct with parsed args from user input
-/// * `output` - todo
-/// * `filter` - todo
+/// * `bucket` - the name of the bucket to download from
+/// * `output` - the name of the local directory to download to
+/// * `filter` - the regex filter used to pick objects to downloads
 ///
 /// # Errors
-/// Will throw an error if the AWS SDK won't allow listing of objects in a bucket
-///
-/// # Panics
-/// Will panic if the number of objects in teh bucket is 0
+/// Throws ```TurbolibError```
 ///
 /// # Return Values
 /// Nothing
-pub async fn downloader(bucket: String, output: String, filter: Option<String>) -> Result<()> {
+pub async fn downloader(bucket: String, output: String, filter: Option<String>) -> Result<(), TurbolibError> {
     let (client, _) = get_s3_client().await?;
 
     create_dir_all(output.as_str())?;
@@ -42,7 +38,9 @@ pub async fn downloader(bucket: String, output: String, filter: Option<String>) 
 
     let no_keys = all_keys.len();
 
-    assert_ne!(no_keys, 0, "Found 0 files to download. If you've used a filter check it's correct");
+    if no_keys == 0_usize{
+        return Err(TurbolibError::NoObjectsFoundInBucket(bucket));
+    }
 
     println!("{} objects to download..", no_keys);
 
@@ -59,7 +57,7 @@ pub async fn downloader(bucket: String, output: String, filter: Option<String>) 
             spawn(async move {
                 download_objects(output_dir, bucket_c, key_chunk_c)
                     .await
-                    .unwrap();
+                    .unwrap_err();
             })
         })
         .collect();
@@ -85,7 +83,7 @@ pub async fn downloader(bucket: String, output: String, filter: Option<String>) 
 ///
 /// * `objects` - vector of all the object keys in the bucket, at present no metadata is collected
 ///
-pub async fn list_all_objects_in_bucket(client: Client, bucket: &str) -> Result<Vec<String>> {
+pub async fn list_all_objects_in_bucket(client: Client, bucket: &str) -> Result<Vec<String>, TurbolibError> {
     // vec to store all the objects - this is dynamic, probably can't use capacity
     let mut objects: Vec<String> = vec![];
 
@@ -132,7 +130,7 @@ pub async fn list_all_objects_in_bucket(client: Client, bucket: &str) -> Result<
 ///
 /// # Return Values
 /// Nothing
-pub async fn download_objects(output_dir: String, bucket: String, keys: Vec<String>) -> Result<()> {
+pub async fn download_objects(output_dir: String, bucket: String, keys: Vec<String>) -> Result<(), TurbolibError> {
     let (client, _) = get_s3_client().await?;
     for key in keys {
         let dl_resp = client.get_object().bucket(&bucket).key(&key).send().await?;

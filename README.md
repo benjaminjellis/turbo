@@ -14,7 +14,8 @@ between S3 and a local or virtual machine used for model development / training.
 ### 1.2 General Setup
 For all use cases turbo requires AWS secrets to access private buckets and for the region to be set. turbo uses the
 [AWS Rust SDK](https://github.com/awslabs/aws-sdk-rust) so the usual methods for providing credentials (i.e. credentials file
-or env variables) are supported. 
+or env variables) are supported. See [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
+for more details
 
 For env variables the following need to be set:
 
@@ -79,7 +80,11 @@ turbolib = "*"
 ```
 
 #### py-turbo - Python package
-py-turbo is a python package that serves as python bindings for ```turbolib```
+py-turbo is a python package that serves as python bindings for ```turbolib``` and is available using pip 
+
+```shell
+pip install py_turbo
+```
 
 
 ### 1.4 Usage
@@ -185,7 +190,7 @@ import asyncio
 
 async def main():
     await download(bucket="my-bucket", output="./data")
-    await download(bucket="my-other-bucket", input="")
+    await upload(bucket="my-other-bucket", input="./some_local_dir")
 
 
 if __name__ == "__main__":

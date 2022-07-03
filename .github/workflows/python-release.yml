@@ -31,6 +31,11 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Prepare maturin publish
+        shell: bash
+        run: |
+          cd py-turbo
+          rustup 1.57.0
       - name: maturin publish
         uses: messense/maturin-action@v1
         env:
