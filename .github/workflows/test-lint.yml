@@ -1,8 +1,9 @@
 name: test-lint
 
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches-ignore:
+      - master
 
 env:
   CARGO_TERM_COLOR: always
@@ -19,7 +20,6 @@ jobs:
           toolchain: 1.57.0
           override: true
       - run: cargo test --verbose
-      - run: cargo build --release
 
   lint:
     name: Lint

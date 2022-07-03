@@ -1,7 +1,6 @@
 use crate::utils::{chunk_vector, get_s3_client, regex_filter};
-use crate::CHUNK_SIZE;
+use crate::{CHUNK_SIZE, TurbolibError};
 
-use anyhow::Result;
 use aws_sdk_s3::model::{BucketLocationConstraint, CreateBucketConfiguration};
 use aws_smithy_http::byte_stream::ByteStream;
 use futures::future::join_all;
@@ -11,34 +10,36 @@ use walkdir::{DirEntry, WalkDir};
 /// Upload to S3 bucket
 ///
 /// # Arguments
-/// * `bucket` - Upload struct with parsed args from user input
-/// * `input` - todo
-/// * `filter` - todo
+/// * `bucket` - the bucket to upload to
+/// * `input` - the local directory to upload
+/// * `filter` - regular expression to filter what to upload
 ///
 /// # Errors
-/// Todo
+/// Throws ```TurbolibError```
 ///
 /// # Panics
-/// Will panic is there are 0 files found to upload todo this should be an error not a panic
+/// Panics if region of AWS credentials are not set
 ///
 /// # Return Values
 /// Nothing
-pub async fn uploader(bucket: String, input: String, filter: Option<String>) -> Result<()> {
+pub async fn uploader(bucket: String, input: String, filter: Option<String>) -> Result<(), TurbolibError> {
     // recursively list the input directory
     let mut all_files = list_input_directory(input.as_str());
 
     // filter paths
-    if filter.is_some() {
+    if let Some(f) = filter{
         println!(
             "Filtering using the regular expression: {}",
-            &filter.as_ref().unwrap()
+            f.as_str()
         );
-        all_files = regex_filter(all_files, filter.unwrap().as_str());
+        all_files = regex_filter(all_files, f.as_str());
     }
 
     let no_files = all_files.len();
 
-    assert_ne!(no_files, 0, "Found 0 files to upload. If you've used a filter check it's correct");
+    if no_files == 0usize{
+        return Err(TurbolibError::NoFilesFoundInDirectory(input));
+    }
 
     println!("{} objects to upload..", no_files);
 
@@ -48,12 +49,12 @@ pub async fn uploader(bucket: String, input: String, filter: Option<String>) -> 
     // check if bucket exists
     let (client, shared_config) = get_s3_client().await?;
     let resp = client.list_buckets().send().await?;
-    let buckets = resp.buckets.unwrap();
+    let buckets = resp.buckets.unwrap_or_default();
 
     if !buckets
         .iter()
-        .map(|bucket| bucket.name.as_ref().unwrap())
-        .any(|x| x == &bucket)
+        .map(|bucket| bucket.name.as_ref())
+        .any(|x| x == Some(&bucket))
     {
         println!(
             "Bucket {} doesn't exist, attempting to create it ",
@@ -132,7 +133,7 @@ fn list_input_directory(input_dir: &str) -> Vec<String> {
 ///
 /// # Return Values
 /// Nothing
-async fn upload_objects(file_chunk: Vec<String>, bucket: String) -> Result<()> {
+async fn upload_objects(file_chunk: Vec<String>, bucket: String) -> Result<(), TurbolibError> {
     let (client, _) = get_s3_client().await?;
 
     for file in file_chunk {
