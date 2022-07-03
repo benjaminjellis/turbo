@@ -1,4 +1,4 @@
-name: test-lint-coverage
+name: test-lint
 
 on:
   pull_request:
@@ -8,20 +8,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-
-  coverage:
-    name: Coverage
-    runs-on: ubuntu-latest
-    container:
-      image: xd009642/tarpaulin:develop-nightly
-      options: --security-opt seccomp=unconfined
-    steps:
-      - name: Checkout repository
-        uses:  actions/checkout@v2
-      - name: Generate code coverage
-        run: |
-          cargo +nightly tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
-
   test:
     name: Test
     runs-on: ubuntu-latest
