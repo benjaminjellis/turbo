@@ -5,6 +5,7 @@ rust-version= "1.56.0"
 edition = "2021"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
 description = "library for turbocharged S3 uploads and downloads"
+license-file = "LICENSE"
 
 [dependencies]
 anyhow = "1.0.45"

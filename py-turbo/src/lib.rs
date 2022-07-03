@@ -16,7 +16,6 @@ fn download(py: Python, bucket: String, output: String, filter: Option<String>) 
 }
 
 
-
 /// upload(bucket, input, filter, /)
 /// --
 ///

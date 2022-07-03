@@ -43,7 +43,7 @@ use one
 ### 1.3 Installation 
 
 
-####  CLI
+####  turbo - CLI tool
 
 ##### From source
 To install from source you'll need to install rustup by following the instructions [here](https://rustup.rs/).
@@ -68,35 +68,24 @@ If you add this binary to a location in your path you'll be able to run turbo.
 Pre-compiled binaries for windows, linux and mac are available from
 [here](https://github.com/benjaminjellis/turbo/releases) for each release.
 
+#### turbolib - Rust Library
+```turbolib``` is the back end for the CLI tool ```turbo```, ```turbolib``` is distributed via [crates.io](crates.io).
 
-#### Python Library
-py-turbo
+To use ```turbolib``` simply ass it to the dependencies section of your Cargo.toml
 
-
-```python
-from py_turbo import download
-import asyncio
-
-
-async def main():
-    await download(bucket="my-bucket", output="./data")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
+```Cargo.toml
+[dependencies]
+turbolib = "*"
 ```
 
-
-#### Rust Library 
-turbolib 
-todo 
+#### py-turbo - Python package
+py-turbo is a python package that serves as python bindings for ```turbolib```
 
 
 ### 1.4 Usage
 
 
-#### CLI
+#### turbo
 
 ##### Download a bucket 
 To download an entire bucket (e.g. ```my_bucket```) navigate to the directory where you'd like to save the download to
@@ -181,6 +170,30 @@ To upload just the ```val``` directory you can run
 turbo upload --input my_local_dir --bucket my_bucket --filter 'val/*'
 ```
 
+#### py-turbo
+
+```py-turbo``` provides the same uploading and downloading via two functions:
+- ```upload```
+- ```download```
+
+Note that because the backend ```turbolib``` is async so are the python functions 
+
+```python
+from py_turbo import download, upload
+import asyncio
+
+
+async def main():
+    await download(bucket="my-bucket", output="./data")
+    await download(bucket="my-other-bucket", input="")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+The same filtering that ```turbo``` allows can be used as in by specifying the regular expression using the ```filter``` 
+kwarg. 
 
 ## 2. 🔪 Sharp Bits 
 

@@ -1,4 +1,4 @@
-name: CD
+name: turbo-release
 
 on:
   push:
@@ -8,8 +8,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-
-
 
   windowsbuid-turbo:
     name: Windows Build
