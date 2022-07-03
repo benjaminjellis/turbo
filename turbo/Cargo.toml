@@ -1,0 +1,15 @@
+[package]
+name = "turbo"
+version = "0.3.0"
+rust-version= "1.56.0"
+edition = "2021"
+authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
+description = "CLI tool for turbocharged S3 uploads and downloads"
+license-file = "LICENSE"
+
+[dependencies]
+anyhow = "1.0.45"
+clap = { version = "3.0.0", features = ["derive"] }
+dotenv = "0.15.0"
+tokio = { version = "1.13.0", features = ["full"] }
+turbolib = {path = "../turbolib"}

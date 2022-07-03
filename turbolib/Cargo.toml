@@ -1,0 +1,20 @@
+[package]
+name = "turbolib"
+version = "0.3.0"
+rust-version= "1.56.0"
+edition = "2021"
+authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
+description = "library for turbocharged S3 uploads and downloads"
+license-file = "LICENSE"
+
+[dependencies]
+anyhow = "1.0.45"
+aws-config = "0.12.0"
+aws-sdk-s3 = "0.12.0"
+aws-types = "0.12.0"
+aws-smithy-http = "0.42.0"
+dotenv = "0.15.0"
+futures = "0.3.17"
+regex = "1.5.4"
+tokio = { version = "1.13.0", features = ["full"] }
+walkdir = "2.3.2"
