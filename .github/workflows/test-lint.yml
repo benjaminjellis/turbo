@@ -3,7 +3,7 @@ name: test-lint
 on:
   push:
     branches-ignore:
-      - master
+      - main
 
 env:
   CARGO_TERM_COLOR: always

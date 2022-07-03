@@ -35,7 +35,7 @@ jobs:
         shell: bash
         run: |
           cd py-turbo
-          rustup 1.57.0
+          rustup default 1.57.0
       - name: maturin publish
         uses: messense/maturin-action@v1
         env:
