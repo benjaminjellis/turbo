@@ -8,8 +8,8 @@ version = "0.3.0"
 authors = [
     { name="Benjamin Ellis", email="benjaminjellis@protonmail.com" },
 ]
-description = "A small example package"v
-readme = "README.md"
+description = "Turbocharged S3 downloads and uplaods"
+readme = "./README.md"
 license = { file="LICENSE" }
 classifiers = [
     "Programming Language :: Python :: 3",
