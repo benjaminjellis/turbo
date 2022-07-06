@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "turbos3_py"
-version = "0.3.1"
+version = "0.3.2"
 authors = [
     { name="Benjamin Ellis", email="benjaminjellis@protonmail.com" },
 ]
