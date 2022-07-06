@@ -3,5 +3,5 @@
 members = [
     "turbolib",
     "turbo",
-    "py-turbo"
+    "turbo-py"
 ]

@@ -43,4 +43,4 @@ jobs:
         with:
           maturin-version: 0.12.1
           command: publish
-          args: -m py-turbo/Cargo.toml --target aarch64-apple-darwin --no-sdist -o wheels -i python -u benjaminjellis
+          args: -m turbo-py/Cargo.toml --target aarch64-apple-darwin --no-sdist -o wheels -i python -u benjaminjellis

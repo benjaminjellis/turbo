@@ -8,7 +8,7 @@ description = "turbocharged S3 uploads and downloads for python"
 
 
 [lib]
-name = "py_turbo"
+name = "turbo_py"
 crate-type = ["cdylib"]
 
 [dependencies]
