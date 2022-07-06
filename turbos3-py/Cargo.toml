@@ -1,5 +1,5 @@
 [package]
-name = "py-turbo"
+name = "turbos3_py"
 version = "0.3.1"
 rust-version= "1.57.0"
 edition = "2021"
@@ -8,7 +8,7 @@ description = "turbocharged S3 uploads and downloads for python"
 
 
 [lib]
-name = "turbo_py"
+name = "turbos3_py"
 crate-type = ["cdylib"]
 
 [dependencies]

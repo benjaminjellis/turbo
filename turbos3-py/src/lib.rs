@@ -30,7 +30,7 @@ fn upload(py: Python, bucket: String, input: String, filter: Option<String>) -> 
 }
 
 #[pymodule]
-fn py_turbo(_py: Python, m: &PyModule) -> PyResult<()> {
+fn turbos3_py(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(download, m)?)?;
     m.add_function(wrap_pyfunction!(upload, m)?)?;
     Ok(())

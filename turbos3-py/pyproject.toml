@@ -3,7 +3,7 @@ requires = ["maturin>=0.12,<0.13"]
 build-backend = "maturin"
 
 [project]
-name = "turbo_py"
+name = "turbos3_py"
 version = "0.3.1"
 authors = [
     { name="Benjamin Ellis", email="benjaminjellis@protonmail.com" },
