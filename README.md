@@ -79,11 +79,11 @@ To use ```turbolib``` simply ass it to the dependencies section of your Cargo.to
 turbolib = "*"
 ```
 
-#### py-turbo - Python package
-py-turbo is a python package that serves as python bindings for ```turbolib``` and is available using pip 
+#### turbo-py - Python package
+turbo-py is a python package that serves as python bindings for ```turbolib``` and is available using pip 
 
 ```shell
-pip install py_turbo
+pip install turbo_py
 ```
 
 
@@ -175,16 +175,16 @@ To upload just the ```val``` directory you can run
 turbo upload --input my_local_dir --bucket my_bucket --filter 'val/*'
 ```
 
-#### py-turbo
+#### turbo-py
 
-```py-turbo``` provides the same uploading and downloading via two functions:
+```turbo-py``` provides the same uploading and downloading via two functions:
 - ```upload```
 - ```download```
 
 Note that because the backend ```turbolib``` is async so are the python functions 
 
 ```python
-from py_turbo import download, upload
+from turbo_py import download, upload
 import asyncio
 
 
