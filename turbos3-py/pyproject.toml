@@ -8,7 +8,7 @@ version = "0.3.1"
 authors = [
     { name="Benjamin Ellis", email="benjaminjellis@protonmail.com" },
 ]
-description = "Turbocharged S3 downloads and uplaods"
+description = "Turbocharged S3 downloads and uplaods for Python"
 readme = "./README.md"
 license = { file="LICENSE" }
 classifiers = [

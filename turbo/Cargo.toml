@@ -1,6 +1,6 @@
 [package]
 name = "turbo"
-version = "0.3.0"
+version = "0.3.2"
 rust-version= "1.57.0"
 edition = "2021"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]

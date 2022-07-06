@@ -6,8 +6,9 @@
 turbo is a tool for downloading and uploading large datasets from and to AWS S3 quickly. turbo is available as a rust
 library, python library or as a CLI tool. 
 
-turbo is useful for downloading and uploading large machine learning datasets (e.g. of 10s or 100s of thousands of images) 
-between S3 and a local or virtual machine used for model development / training.
+turbo was written specifically for downloading and uploading large machine learning datasets (e.g. of 10s or 100s 
+of thousands of images) between S3 and a local or virtual machine used for model development / training quickly, 
+but is useful for any use case where you have a large number of files that are fairly small.
 
 ## 1 Using Turbo
 
@@ -72,20 +73,19 @@ Pre-compiled binaries for windows, linux and mac are available from
 #### turbolib - Rust Library
 ```turbolib``` is the back end for the CLI tool ```turbo```, ```turbolib``` is distributed via [crates.io](crates.io).
 
-To use ```turbolib``` simply ass it to the dependencies section of your Cargo.toml
+To use ```turbolib``` simply add it to the dependencies section of your Cargo.toml
 
 ```Cargo.toml
 [dependencies]
 turbolib = "*"
 ```
 
-#### turbo-py - Python package
-turbo-py is a python package that serves as python bindings for ```turbolib``` and is available using pip 
+#### turbos3-py - Python package
+turbos3-py is a python package that serves as python bindings for ```turbolib``` and is available using pip 
 
 ```shell
-pip install turbo_py
+pip install turbos3_py
 ```
-
 
 ### 1.4 Usage
 
@@ -177,14 +177,14 @@ turbo upload --input my_local_dir --bucket my_bucket --filter 'val/*'
 
 #### turbo-py
 
-```turbo-py``` provides the same uploading and downloading via two functions:
+```turbos3-py``` provides the same uploading and downloading via two functions:
 - ```upload```
 - ```download```
 
 Note that because the backend ```turbolib``` is async so are the python functions 
 
 ```python
-from turbo_py import download, upload
+from turbos3_py import download, upload
 import asyncio
 
 
