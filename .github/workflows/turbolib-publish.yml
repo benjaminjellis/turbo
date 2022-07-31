@@ -22,4 +22,4 @@ jobs:
           profile: minimal
           toolchain: 1.57.0
           override: true
-      - run: cargo publish
+      - run: cargo publish -p turbolib
