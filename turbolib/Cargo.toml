@@ -3,6 +3,7 @@ name = "turbolib"
 version = "0.3.3"
 rust-version= "1.57.0"
 edition = "2021"
+repository = "https://github.com/benjaminjellis/turbo/tree/main/turbolib"
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
 description = "library for turbocharged S3 uploads and downloads"
 license-file = "LICENSE"
