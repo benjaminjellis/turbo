@@ -1,3 +1,4 @@
+use std::borrow::Borrow;
 use crate::utils::{chunk_vector, get_s3_client, regex_filter};
 use crate::{CHUNK_SIZE, TurbolibError};
 
@@ -5,6 +6,7 @@ use aws_sdk_s3::Client;
 use futures::future::join_all;
 use std::fs::{create_dir_all, write};
 use std::path::Path;
+use std::sync::Arc;
 use tokio::task::spawn;
 
 
@@ -22,7 +24,6 @@ use tokio::task::spawn;
 /// Nothing
 pub async fn downloader(bucket: String, output: String, filter: Option<String>) -> Result<(), TurbolibError> {
     let (client, _) = get_s3_client().await?;
-
     create_dir_all(output.as_str())?;
 
     let mut all_keys = list_all_objects_in_bucket(client, &bucket).await?;
@@ -47,15 +48,18 @@ pub async fn downloader(bucket: String, output: String, filter: Option<String>) 
     // allocate CHUNK_SIZE keys to n chunks, where n * 300 is the number of keys in the entire bucket
     let key_chunks = chunk_vector(all_keys, CHUNK_SIZE);
 
+    // use arcs to share these across tasks
+    let bucket = Arc::new(bucket);
+    let output = Arc::new(output);
+
     // then spawn a new task for each of the n chunks to download the keys
     let downloader_futures: Vec<_> = key_chunks
-        .iter()
+        .into_iter()
         .map(|key_chunk| {
-            let bucket_c = bucket.clone();
-            let output_dir = output.clone();
-            let key_chunk_c = key_chunk.clone();
+            let bucket = bucket.clone();
+            let output = output.clone();
             spawn(async move {
-                download_objects(output_dir, bucket_c, key_chunk_c)
+                download_objects(output, bucket, key_chunk)
                     .await
                     .unwrap_err();
             })
@@ -130,10 +134,12 @@ pub async fn list_all_objects_in_bucket(client: Client, bucket: &str) -> Result<
 ///
 /// # Return Values
 /// Nothing
-pub async fn download_objects(output_dir: String, bucket: String, keys: Vec<String>) -> Result<(), TurbolibError> {
+pub async fn download_objects(output_dir: Arc<String>, bucket: Arc<String>, keys: Vec<String>) -> Result<(), TurbolibError> {
     let (client, _) = get_s3_client().await?;
+    let bucket: &String = bucket.borrow();
+    let output_dir: &String = output_dir.borrow();
     for key in keys {
-        let dl_resp = client.get_object().bucket(&bucket).key(&key).send().await?;
+        let dl_resp = client.get_object().bucket(bucket).key(&key).send().await?;
 
         let object = dl_resp.body.collect().await?.into_bytes();
 
