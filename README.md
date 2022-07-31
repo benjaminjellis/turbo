@@ -1,5 +1,5 @@
 # turbo 
-![CI](https://github.com/benjaminjellis/turbo/actions/workflows/cd.yml/badge.svg) 
+![CI](https://github.com/benjaminjellis/turbo/actions/workflows/turbo-release.yml/badge.svg)
 ![MSRV](https://img.shields.io/badge/msrv-1.57.0-red) 
 ![version](https://img.shields.io/badge/version-0.3.3-blue)
 
